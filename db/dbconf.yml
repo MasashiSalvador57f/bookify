@@ -1,0 +1,15 @@
+test:
+    driver: mymysql
+    open: bookifydb/bookify/hogehoge
+
+development:
+    driver: mymysql
+    open: bookifydb/bookify/hogehoge
+
+production:
+    driver: mymysql
+    open: bookifydb/bookify/hogehoge
+
+environment_variable_config:
+    driver: $DB_DRIVER
+    open: $DATABASE_URL
