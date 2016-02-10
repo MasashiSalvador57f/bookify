@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/MasashiSalvador57f/bookify/app/model"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/gorp.v1"
@@ -15,15 +16,17 @@ func InitDB(c *gin.Context) {
 	dbPass := "hogehoge"
 	dbProtocol := "tcp"
 	dbName := "bookify_development"
-	dsn := fmt.Sprintf("%s%s@%s/%s", dbUser, dbPass, dbProtocol, dbName)
+	dsn := fmt.Sprintf("%s:%s@%s/%s", dbUser, dbPass, dbProtocol, dbName)
 
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalln("error on connecting db", err)
 	}
 
-	dbmap := gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{}}
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{}}
 
+	// add definitions of tables to dbmap
+	dbmap.AddTableWithName(model.User{}, "user").SetKeys(true, "id")
 	c.Set("dbmap", dbmap)
 }
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/MasashiSalvador57f/bookify/app/services/user"
 	"github.com/MasashiSalvador57f/bookify/app/shared/auth"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
@@ -24,7 +25,6 @@ const fbGraphMeURL = "https://graph.facebook.com/me?fields=email,id"
 func (ctr *AuthController) Index(c *gin.Context) {
 	fbConfig := auth.Facebook
 	url := fbConfig.AuthCodeURL("")
-	fmt.Println(url)
 	c.Redirect(302, url)
 	return
 }
@@ -59,7 +59,25 @@ func (ctr *AuthController) AuthCallback(c *gin.Context) {
 		return
 	}
 
-	redirectURL := fmt.Sprintf("/auth/show?email=%s", fbuser.MailAddress)
+	us := userservice.NewUserService(c)
+
+	u, errint := us.FindByFacebookID(fbuser.ID)
+	if !u.IsEmptyUser() {
+		redirectURL := fmt.Sprintf("/auth/show?email=%s&ddd=1", u.Email)
+		c.Redirect(301, redirectURL)
+		return
+	}
+
+	u, errint = us.InitializeUserByFbIDAndEmail(
+		fbuser.ID,
+		fbuser.MailAddress,
+	)
+
+	if errint != userservice.Complete {
+		c.Redirect(301, "/")
+		return
+	}
+	redirectURL := fmt.Sprintf("/auth/show?email=%s", u.Email)
 	c.Redirect(301, redirectURL)
 	return
 }

@@ -1,13 +1,14 @@
 package controller
+
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/flosch/pongo2"
+	"github.com/gin-gonic/gin"
 )
 
 type UserController struct {
 }
 
-func (ctr *UserController) Index (c *gin.Context) {
+func (ctr *UserController) Index(c *gin.Context) {
 	tpl, err := pongo2.FromFile("templates/user/index.html")
 	if err != nil {
 		c.String(500, "can't load template")
