@@ -12,13 +12,14 @@ import (
 
 type FbUser struct {
 	MailAddress string `json:"email"`
+	ID          string `json:"id"`
 }
 
 // AuthController is controller for authentication
 type AuthController struct {
 }
 
-const fbGraphMeURL = "https://graph.facebook.com/me"
+const fbGraphMeURL = "https://graph.facebook.com/me?fields=email,id"
 
 func (ctr *AuthController) Index(c *gin.Context) {
 	fbConfig := auth.Facebook
@@ -29,7 +30,7 @@ func (ctr *AuthController) Index(c *gin.Context) {
 }
 
 func (ctr *AuthController) AuthCallback(c *gin.Context) {
-	code := c.Params.ByName("code")
+	code := c.Query("code")
 
 	fbConfig := auth.Facebook
 	token, err := fbConfig.Exchange(oauth2.NoContext, code)
@@ -51,8 +52,12 @@ func (ctr *AuthController) AuthCallback(c *gin.Context) {
 	defer result.Body.Close()
 
 	fbuser := FbUser{}
-	_ = json.NewDecoder(result.Body).Decode(&fbuser)
-	fmt.Println(fbuser.MailAddress)
+	err = json.NewDecoder(result.Body).Decode(&fbuser)
+
+	if err != nil {
+		c.Redirect(301, "/")
+		return
+	}
 
 	redirectURL := fmt.Sprintf("/auth/show?email=%s", fbuser.MailAddress)
 	c.Redirect(301, redirectURL)
@@ -60,7 +65,7 @@ func (ctr *AuthController) AuthCallback(c *gin.Context) {
 }
 
 func (ctr *AuthController) Show(c *gin.Context) {
-	email := c.Params.ByName("email")
+	email := c.Query("email")
 	c.JSON(200, gin.H{
 		"status": "posted",
 		"email":  email,

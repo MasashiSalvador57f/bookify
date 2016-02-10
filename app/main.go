@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/MasashiSalvador57f/bookify/app/controller"
-	"github.com/MasashiSalvador57f/bookify/app/database_accessor"
+	"github.com/MasashiSalvador57f/bookify/app/shared/database_accessor"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,8 +18,4 @@ func main() {
 	userCtr := controller.UserController{}
 	r.GET("/", userCtr.Index)
 	r.Run(":8080")
-}
-
-func hoge(c *gin.Context) {
-	fmt.Println("----------")
 }
