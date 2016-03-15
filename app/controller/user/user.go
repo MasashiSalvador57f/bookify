@@ -1,4 +1,4 @@
-package controller
+package usercontroller
 
 import (
 	"github.com/flosch/pongo2"

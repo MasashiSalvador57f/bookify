@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"gopkg.in/gorp.v1"
+	"github.com/MasashiSalvador57f/bookify/app/shared/crypto"
 )
 
 type UserRepository interface {
@@ -39,6 +40,7 @@ func (ur *UserRepo) CreateByFacebookIDAndEmail(facebookID, email string) (*model
 	u.Email = email
 	u.FacebookID = facebookID
 	u.Name = ""
+	u.AccessToken = accesstoken.ConvertToAccessToken(u.Email)
 	u.CreatedAt = ur.now
 	u.UpdatedAt = ur.now
 
@@ -54,3 +56,4 @@ func (ur *UserRepo) FindByFacebookID(facebookID string) (*model.User, error) {
 
 	return u, err
 }
+
