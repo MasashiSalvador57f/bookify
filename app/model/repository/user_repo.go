@@ -5,8 +5,8 @@ import (
 
 	"time"
 
-	"gopkg.in/gorp.v1"
 	"github.com/MasashiSalvador57f/bookify/app/shared/crypto"
+	"gopkg.in/gorp.v1"
 )
 
 type UserRepository interface {
@@ -51,9 +51,12 @@ func (ur *UserRepo) CreateByFacebookIDAndEmail(facebookID, email string) (*model
 
 func (ur *UserRepo) FindByFacebookID(facebookID string) (*model.User, error) {
 	u := new(model.User)
-
 	err := ur.dbmap.SelectOne(u, "SELECT * FROM user WHERE facebook_id = ?", facebookID)
-
 	return u, err
 }
 
+func (ur *UserRepo) FindByAccessToken(t string) (*model.User, error) {
+	u := new(model.User)
+	err := ur.dbmap.SelectOne(u, "SELECT * FROM user WHERE access_token = ?", t)
+	return u, err
+}
