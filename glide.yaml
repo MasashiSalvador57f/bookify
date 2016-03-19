@@ -1,2 +1,6 @@
 package: github.com/MasashiSalvador57f/bookify
-import: []
+import:
+- package: github.com/golang/oauth2
+- package: gopkg.in/gorp.v1
+- package: github.com/flosch/pongo2
+- package: github.com/gin-gonic/gin
