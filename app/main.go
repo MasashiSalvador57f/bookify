@@ -14,6 +14,7 @@ func main() {
 	r := gin.Default()
 	r.Use(da.InitDB)
 	r.Use(initializeTime)
+	r.Use(embedAccessTokenInContext)
 
 	authCtr := authcontroller.AuthController{}
 	r.GET("/auth/index", authCtr.Index)
@@ -31,4 +32,9 @@ func main() {
 func initializeTime(c *gin.Context) {
 	now := time.Now()
 	c.Set("now", now)
+}
+
+func embedAccessTokenInContext(c *gin.Context) {
+	accessToken := c.Request.Header.Get("bookify-token")
+	c.Set("access_token", accessToken)
 }
