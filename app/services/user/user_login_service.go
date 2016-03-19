@@ -1,14 +1,34 @@
 package userservice
+
 import (
-	"github.com/gin-gonic/gin"
+	"time"
+
 	"github.com/MasashiSalvador57f/bookify/app/model/repository"
+	"github.com/gin-gonic/gin"
+	"gopkg.in/gorp.v1"
 )
 
-type LoginUserService struct {
+type UserLoginService struct {
 	ctx *gin.Context
 }
 
-func (s *LoginUserService) setUserInContext(accessToken string) int {
-	dbm := ctx.M
-	ur := repository.NewUserRepo()
+var findUserByAccessToken int = 0
+var notFoundUserByAccessToken int = 1
+
+func NewUserLoginService(c *gin.Context) UserLoginService {
+	return UserLoginService{ctx: c}
+}
+func (s *UserLoginService) setUserInContext(accessToken string) int {
+	now := s.ctx.MustGet("now").(time.Time)
+	dbm := s.ctx.MustGet("dbmap").(*gorp.DbMap)
+	ur := repository.NewUserRepo(dbm, now)
+
+	u, errint := ur.FindByAccessToken(accessToken)
+
+	if errint != 0 {
+		return notFoundUserByAccessToken
+	}
+	s.ctx.Set("user", u)
+
+	return findUserByAccessToken
 }
