@@ -22,6 +22,7 @@ type AuthController struct {
 
 const fbGraphMeURL = "https://graph.facebook.com/me?fields=email,id"
 
+// TODO: Access Control
 func (ctr *AuthController) Index(c *gin.Context) {
 	fbConfig := auth.Facebook
 	url := fbConfig.AuthCodeURL("")
@@ -62,6 +63,11 @@ func (ctr *AuthController) AuthCallback(c *gin.Context) {
 	us := userservice.NewUserService(c)
 
 	u, errint := us.FindByFacebookID(fbuser.ID)
+	if errint != 0 {
+		redirectURL := "/"
+		c.Redirect(301, redirectURL)
+		return
+	}
 	if !u.IsEmptyUser() {
 		redirectURL := fmt.Sprintf("/auth/show?email=%s&ddd=1", u.Email)
 		c.Redirect(301, redirectURL)
