@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-04/hyper-schema",
+  "type": [
+    "object"
+  ],
+  "definitions": {
+    "user": {
+      "$schema": "http://json-schema.org/draft-04/hyper-schema",
+      "title": "FIXME - User",
+      "description": "FIXME",
+      "stability": "prototype",
+      "strictProperties": true,
+      "type": [
+        "object"
+      ],
+      "definitions": {
+        "id": {
+          "description": "unique identifier of user",
+          "readOnly": true,
+          "type": [
+            "string"
+          ],
+          "example": "20001"
+        },
+        "name": {
+          "description": "unique name of user",
+          "readOnly": true,
+          "type": [
+            "string"
+          ],
+          "example": "Bookify Taro"
+        },
+        "created_at": {
+          "description": "when user was created",
+          "format": "date-time",
+          "type": [
+            "string"
+          ],
+          "example": "2015-10-23T01:02:03Z"
+        },
+        "updated_at": {
+          "description": "when user was updated",
+          "format": "date-time",
+          "type": [
+            "string"
+          ],
+          "example": "2016-04-01T02:03:05Z"
+        },
+        "facebook_id": {
+          "description": "unique id in facebook",
+          "type": [
+            "string"
+          ],
+          "example": "bookify.taro"
+        },
+        "email": {
+          "description": "email address of user",
+          "format": "email",
+          "type": [
+            "string"
+          ],
+          "example": "bookify.taro@bookify.com"
+        },
+        "access_token": {
+          "description": "access token of bookify",
+          "type": [
+            "string"
+          ],
+          "maxLength": 64,
+          "minLength": 64,
+          "example": "93ce10529c2de7b61c548bbfbe7d6f0855f87c824b6e5809418b74bff2237ef4"
+        }
+      },
+      "links": [
+        {
+          "description": "Create a new user of Bookify.",
+          "href": "/users",
+          "method": "POST",
+          "rel": "create",
+          "schema": {
+            "properties": {
+            },
+            "type": [
+              "object"
+            ]
+          },
+          "title": "Create"
+        },
+        {
+          "description": "Delete an existing user.",
+          "href": "/users/{(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fname)}",
+          "method": "DELETE",
+          "rel": "destroy",
+          "title": "Delete"
+        },
+        {
+          "description": "Info for existing user.",
+          "href": "/users/{(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fname)}",
+          "method": "GET",
+          "rel": "self",
+          "title": "Info"
+        },
+        {
+          "description": "List existing users.",
+          "href": "/users",
+          "method": "GET",
+          "rel": "instances",
+          "title": "List"
+        },
+        {
+          "description": "Update an existing user.",
+          "href": "/users/{(%23%2Fdefinitions%2Fuser%2Fdefinitions%2Fname)}",
+          "method": "PATCH",
+          "rel": "update",
+          "schema": {
+            "properties": {
+            },
+            "type": [
+              "object"
+            ]
+          },
+          "title": "Update"
+        }
+      ],
+      "properties": {
+        "created_at": {
+          "$ref": "#/definitions/user/definitions/created_at"
+        },
+        "id": {
+          "$ref": "#/definitions/user/definitions/id"
+        },
+        "name": {
+          "$ref": "#/definitions/user/definitions/name"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/user/definitions/updated_at"
+        },
+        "facebook_id": {
+          "$ref": "#/definitions/user/definitions/facebook_id"
+        },
+        "access_token": {
+          "$ref": "#/definitions/user/definitions/access_token"
+        },
+        "email": {
+          "$ref": "#/definitions/user/definitions/email"
+        }
+      }
+    }
+  },
+  "properties": {
+    "user": {
+      "$ref": "#/definitions/user"
+    }
+  },
+  "description": "A schema for Bookify API",
+  "id": "bookify",
+  "links": [
+    {
+      "href": "http://api.bookify.com/",
+      "rel": "self"
+    }
+  ],
+  "title": "Bookify API Specification"
+}
