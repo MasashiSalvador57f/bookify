@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/MasashiSalvador57f/bookify/app/shared/crypto"
-	"gopkg.in/gorp.v1"
+	"github.com/MasashiSalvador57f/bookify/vendor/gopkg.in/gorp.v1"
 )
 
 type UserRepository interface {

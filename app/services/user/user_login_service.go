@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/MasashiSalvador57f/bookify/app/model/repository"
-	"github.com/gin-gonic/gin"
+	"github.com/MasashiSalvador57f/bookify/vendor/github.com/gin-gonic/gin"
 	"gopkg.in/gorp.v1"
 )
 

@@ -28,6 +28,7 @@ func InitDB(c *gin.Context) {
 	// add definitions of tables to dbmap
 	t := dbmap.AddTableWithName(model.User{}, "user").SetKeys(true, "id")
 	t.ColMap("FacebookID").SetUnique(true)
+	dbmap.AddTableWithName(model.Book{}, "book").SetKeys(true, "id")
 	c.Set("dbmap", dbmap)
 }
 
