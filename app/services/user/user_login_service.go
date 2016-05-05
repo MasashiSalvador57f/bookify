@@ -23,9 +23,9 @@ func (s *UserLoginService) setUserInContext(accessToken string) int {
 	dbm := s.ctx.MustGet("dbmap").(*gorp.DbMap)
 	ur := repository.NewUserRepo(dbm, now)
 
-	u, errint := ur.FindByAccessToken(accessToken)
+	u, err := ur.FindByAccessToken(accessToken)
 
-	if errint != 0 {
+	if err != nil {
 		return notFoundUserByAccessToken
 	}
 	s.ctx.Set("user", u)
