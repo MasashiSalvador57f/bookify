@@ -4,3 +4,4 @@ import:
 - package: gopkg.in/gorp.v1
 - package: github.com/flosch/pongo2
 - package: github.com/gin-gonic/gin
+- package: github.com/go-gorp/gorp
